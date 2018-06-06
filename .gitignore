@@ -6,3 +6,4 @@
 \bin
 /.vs/DotNetCoreSamples/v15/Server/sqlite3
 *.suo
+/.vs/ConsulSample/v15/Server/sqlite3
