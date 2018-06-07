@@ -22,13 +22,19 @@ namespace API服务提供者
             var config = new ConfigurationBuilder()
                 .AddCommandLine(args)
                 .Build();
+
             string ip = config["ip"];
             string port = config["port"];
 
-            return WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .UseUrls($"http://{ip}:{port}")
-                .Build();
+            var host = WebHost.CreateDefaultBuilder(args)
+                .UseStartup<Startup>();
+
+            if (!string.IsNullOrWhiteSpace(ip) && !string.IsNullOrWhiteSpace(port))
+            {
+                host.UseUrls($"http://{ip}:{port}");
+            }
+
+            return host.Build();
         }
             
     }
