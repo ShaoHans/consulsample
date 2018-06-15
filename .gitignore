@@ -4,6 +4,7 @@
 
 \obj
 \bin
+\.vs
 /.vs/DotNetCoreSamples/v15/Server/sqlite3
 *.suo
 /.vs/ConsulSample/v15/Server/sqlite3
