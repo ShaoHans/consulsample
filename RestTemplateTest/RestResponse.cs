@@ -30,7 +30,7 @@ namespace RestTemplateTest
         /// <summary>
         /// 响应体
         /// </summary>
-        public T Body { get;}
+        public T Body { get; private set; }
 
         public RestResponse(HttpStatusCode statusCode, HttpResponseHeaders headers, T body = default(T)) : base(statusCode, headers)
         {

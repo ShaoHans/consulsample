@@ -81,9 +81,9 @@ namespace RestTemplateTest
         /// <summary>
         /// 发送Get请求
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="url"></param>
-        /// <param name="requestHeaders"></param>
+        /// <typeparam name="T">响应报文体反序列化实体类型</typeparam>
+        /// <param name="url">请求路径url</param>
+        /// <param name="requestHeaders">请求头信息</param>
         /// <returns></returns>
         public async Task<RestResponse<T>> GetForEntityAsync<T>(string url, HttpRequestHeaders requestHeaders = null)
         {
@@ -99,6 +99,120 @@ namespace RestTemplateTest
                 requestMsg.Method = HttpMethod.Get;
                 requestMsg.RequestUri = new Uri(await ResolveServiceUrlAsync(url));
                 return await SendForEntityAsync<T>(requestMsg);
+            }
+        }
+
+        /// <summary>
+        /// 发送POST请求
+        /// </summary>
+        /// <typeparam name="T">响应报文体反序列化实体类型</typeparam>
+        /// <param name="url">请求路径url</param>
+        /// <param name="data">请求参数，会被序列化为json格式数据放在请求报文体中</param>
+        /// <param name="requestHeaders">请求头信息</param>
+        /// <returns></returns>
+        public async Task<RestResponse<T>> PostForEntityAsync<T>(string url, object data = null, HttpRequestHeaders requestHeaders = null)
+        {
+            using (HttpRequestMessage requestMsg = new HttpRequestMessage())
+            {
+                if(requestHeaders != null)
+                {
+                    foreach (var header in requestHeaders)
+                    {
+                        requestMsg.Headers.Add(header.Key, header.Value);
+                    }
+                }
+
+                requestMsg.Method = HttpMethod.Post;
+                requestMsg.RequestUri = new Uri(await ResolveServiceUrlAsync(url));
+                requestMsg.Content = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
+                //requestMsg.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+                return await SendForEntityAsync<T>(requestMsg);
+            }
+        }
+
+        /// <summary>
+        /// 发送POST请求
+        /// </summary>
+        /// <param name="url">请求路径url</param>
+        /// <param name="data">请求参数，会被序列化为json格式数据放在请求报文体中</param>
+        /// <param name="requestHeaders">请求头信息</param>
+        /// <returns></returns>
+        public async Task<RestResponse> PostAsync(string url, object data = null, HttpRequestHeaders requestHeaders = null)
+        {
+            using (HttpRequestMessage requestMsg = new HttpRequestMessage())
+            {
+                if (requestHeaders != null)
+                {
+                    foreach (var header in requestHeaders)
+                    {
+                        requestMsg.Headers.Add(header.Key, header.Value);
+                    }
+                }
+
+                requestMsg.Method = HttpMethod.Post;
+                requestMsg.RequestUri = new Uri(await ResolveServiceUrlAsync(url));
+                requestMsg.Content = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
+                //requestMsg.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+                return await SendAsync(requestMsg);
+            }
+        }
+
+        /// <summary>
+        /// 发送PUT请求
+        /// </summary>
+        /// <typeparam name="T">响应报文体反序列化实体类型</typeparam>
+        /// <param name="url">请求路径url</param>
+        /// <param name="data">请求参数，会被序列化为json格式数据放在请求报文体中</param>
+        /// <param name="requestHeaders">请求头信息</param>
+        /// <returns></returns>
+        public async Task<RestResponse<T>> PutForEntityAsync<T>(string url, object data = null, HttpRequestHeaders requestHeaders = null)
+        {
+            using (HttpRequestMessage requestMsg = new HttpRequestMessage())
+            {
+                if (requestHeaders != null)
+                {
+                    foreach (var header in requestHeaders)
+                    {
+                        requestMsg.Headers.Add(header.Key, header.Value);
+                    }
+                }
+
+                requestMsg.Method = HttpMethod.Put;
+                requestMsg.RequestUri = new Uri(await ResolveServiceUrlAsync(url));
+                requestMsg.Content = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
+                //requestMsg.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+                return await SendForEntityAsync<T>(requestMsg);
+            }
+        }
+
+        /// <summary>
+        /// 发送POST请求
+        /// </summary>
+        /// <param name="url">请求路径url</param>
+        /// <param name="data">请求参数，会被序列化为json格式数据放在请求报文体中</param>
+        /// <param name="requestHeaders">请求头信息</param>
+        /// <returns></returns>
+        public async Task<RestResponse> PutAsync(string url, object data = null, HttpRequestHeaders requestHeaders = null)
+        {
+            using (HttpRequestMessage requestMsg = new HttpRequestMessage())
+            {
+                if (requestHeaders != null)
+                {
+                    foreach (var header in requestHeaders)
+                    {
+                        requestMsg.Headers.Add(header.Key, header.Value);
+                    }
+                }
+
+                requestMsg.Method = HttpMethod.Put;
+                requestMsg.RequestUri = new Uri(await ResolveServiceUrlAsync(url));
+                requestMsg.Content = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
+                //requestMsg.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+                return await SendAsync(requestMsg);
             }
         }
     }
